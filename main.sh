@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../secrets.sh
+source secrets.sh
 
 TMP_FILE=$(mktemp)
 

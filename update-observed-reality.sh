@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-source ../secrets.sh
+source secrets.sh
 
 mkdir -p data
 SAVED_FILE="data/dns_records.json"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../secrets.sh
+source secrets.sh
 	     
 #curl "https://api.cloudflare.com/client/v4/user/tokens/verify" \
 #  -H "Authorization: Bearer $CF_API_TOKEN" | jq

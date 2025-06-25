@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../secrets.sh
+source secrets.sh
 
 RECORD_NAME="mihir2.$ROOT_NAME"
 RECORD_TYPE="A"
