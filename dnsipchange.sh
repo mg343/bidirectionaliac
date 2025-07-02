@@ -15,7 +15,7 @@ RECORD_DATA=$(curl -s "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_r
 
 CURRENT_IP=$(echo "$RECORD_DATA" | jq -r '.content')
 RECORD_ID=$(echo "$RECORD_DATA" | jq -r '.id')
-NEW_IP="3.3.3.3"
+NEW_IP="7.7.7.7"
 
 curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
    -H "Authorization: Bearer $CF_API_TOKEN" \
