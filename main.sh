@@ -6,8 +6,6 @@ cd "$(dirname "$0")"
 # Load Cloudflare credentials
 source secrets.sh
 
-echo "[DEBUG] ARGS: $@"
-
 # Handle restore mode
 if [[ "${1:-}" == "-r" && -n "${2:-}" ]]; then
   RESTORE_COMMIT_MSG="$2"
@@ -16,16 +14,16 @@ if [[ "${1:-}" == "-r" && -n "${2:-}" ]]; then
   if [[ ! "$RESTORE_COMMIT_MSG" =~ ^[0-9]{2}:[0-9]{2}\ [0-9]{2}/[0-9]{2}/[0-9]{4}$ ]]; then
     echo "[WARN] Improper -r formatting (HH:MM MM/DD/YYYY), running main.sh normally."
   else
-    echo "[INFO] Attempting to restore snapshot from commit: $RESTORE_COMMIT_MSG"
+    echo "[INFO] Attempting to restore snapshot from commit: '$RESTORE_COMMIT_MSG'"
     git switch observed-reality
     git pull
 
     COMMIT_HASH=$(git log --pretty=format:"%H %s" | awk -v msg="$RESTORE_COMMIT_MSG" '
-    $0 ~ msg && $0 ~ "^.* " msg && $0 !~ msg ":" { print $1; exit }
+      substr($0, 42, 16) == msg { print $1; exit }
     ')
 
     if [[ -z "$COMMIT_HASH" ]]; then
-      echo "[ERROR] No commit found with message: '$RESTORE_COMMIT_MSG'"
+      echo "[ERROR] No commit found with commit header: '$RESTORE_COMMIT_MSG'"
       exit 1
     fi
 
@@ -34,7 +32,7 @@ if [[ "${1:-}" == "-r" && -n "${2:-}" ]]; then
 
     git add data/dns_records.json
     git commit -m "$(date +"%H:%M %m/%d/%Y"): Restoring $RESTORE_COMMIT_MSG"
-    echo "[INFO] File restored and committed.'"
+    echo "[INFO] File restored and committed."
     exit 0
   fi
 fi
